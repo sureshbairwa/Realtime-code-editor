@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: 'http://localhost:5173',
+        origin: process.env.FRONTEND_URL,
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -32,6 +32,10 @@ let rooms = {};
 let users = {};
 let code = {};
 let groupChat= {}
+
+app.get('/', (req, res) => {
+    res.send('server is running');
+})
 
 
 io.on('connection', (socket) => {
@@ -101,19 +105,8 @@ io.on('connection', (socket) => {
    
 });
 
-const __dirname = path.resolve();
+const PORT = process.env.PORT || 3000;
 
-const NODE_ENV = process.env.NODE_ENV || "development";
-
-if (NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-	});
-}
-
-
-server.listen(3000, () => {
+server.listen(PORT, () => {
     console.log('listening on http://localhost:3000');
 });

@@ -22,7 +22,8 @@ const EditorPage = () => {
   console.log(roomId, username);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:3000");
+    socketRef.current = io(import.meta.env.VITE_BACKEND_URL);
+
 
     socketRef.current.emit("join_room", { roomId, username });
 
