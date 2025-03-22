@@ -161,7 +161,7 @@ const EditorPage = () => {
         <Editor
           height="90vh"
           width="100%"
-          defaultLanguage="javascript"
+          defaultLanguage="cpp"
           defaultValue="// Write your code here"
           value={code}
           theme="vs-dark"

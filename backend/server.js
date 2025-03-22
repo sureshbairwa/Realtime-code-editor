@@ -2,6 +2,10 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -96,6 +100,19 @@ io.on('connection', (socket) => {
     });
    
 });
+
+const __dirname = path.resolve();
+
+const NODE_ENV = process.env.NODE_ENV || "development";
+
+if (NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
+
 
 server.listen(3000, () => {
     console.log('listening on http://localhost:3000');
